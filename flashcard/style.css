@@ -1,0 +1,135 @@
+body{
+    background-color: rgb(27, 8, 46);
+}
+
+.fields{
+    padding: 5rem;
+    text-align: center;
+}
+
+.question {
+    display: block;
+    align-items: center;
+    justify-content: center;
+    color: rgb(247, 215, 220);
+    font-size: 30px;
+
+}
+
+.input {
+    width: 100%;
+    display: flex;
+    box-sizing: border-box;
+    margin-top: 7rem;
+    align-items: center;
+    justify-content: center;
+}
+
+.input_box {
+    margin-right: 3rem;
+    background-color: rgb(242, 224, 243);
+    font-size: 15px;
+    resize: none;
+    align-items: center;
+    justify-content: center;
+}
+
+.output_box {
+    margin-left: 3rem;
+    background-color: rgb(242, 224, 243);
+    font-size: 15px;
+    pointer-events: none;
+    resize: none;
+    align-items: center;
+    justify-content: center;
+}
+
+.buttons{
+    margin-top: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center; 
+}
+
+.next-question {
+    width: 10%;
+    background-color: white;
+    font-size: 15px;
+    margin-left: 5rem;
+    margin-right: 10rem;
+    padding: 7px 30px;
+    display: inline-block;
+    border: none
+}
+
+.next-question:hover {
+    background-color: #a369cf;
+    color: white;
+}
+
+
+.reveal-answer {
+    width: 10%;
+    background-color: white;
+    font-size: 15px;
+    margin-left: 10rem;
+    margin-right: 5rem;
+    padding: 7px 30px;
+    display: inline-block;
+    border: none;
+}
+
+.reveal-answer:hover {
+    background-color: #a369cf;
+    color: white;
+}
+
+
+.checked {
+    size: 10px;
+    background-color: white;
+    font-size: 15px;
+    margin-left: 5rem;
+    border: none;
+    width: 50px;
+    height: 30px;
+}
+
+.checked:hover {
+    background-color: #098557;
+    color: white;
+}
+
+.not-checked {
+    background-color: white;
+    font-size: 15px;
+    margin-left: 1rem;
+    margin-right: 5rem;
+    border: none;
+    width: 50px;
+    height: 30px;
+}
+
+.not-checked:hover {
+    background-color: #b83f0f;
+    color: white;
+}
+
+.scoring {
+    color: rgb(247, 215, 220);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 3rem;
+    font-size: 25px;
+}
+
+.correct {
+    padding-left: 3rem;
+    padding-right: 5rem;
+}
+
+.incorrect {
+    padding-left: 3rem;
+    padding-right: 5rem;
+}
