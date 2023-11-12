@@ -1,0 +1,84 @@
+const current_question = document.querySelector('.question');
+const answer_displayed = document.querySelector('.output_box');
+const next_question_button = document.querySelector('.next-question');
+const reveal_answer_button = document.querySelector('.reveal-answer');
+const checked_button = document.querySelector('.checked');
+const not_checked_button = document.querySelector('.not-checked');
+const correct_scoring = document.querySelector('.correct');
+const incorrect_scoring = document.querySelector('.incorrect');
+var correct_score = 0
+var incorrect_score = 0
+
+const question_answers = [ 
+    { question: "When is a good time to automate a test?", answer: "The test can be repeated. The tested feature's behavior does not change regularly. It takes time for a human tester. The test necessitates complex computations.The test confirms that the previous functionality did not break as a result of the new change."},
+    { question:"When will you avoid automated testing?", answer:
+    "The software or functionality under test changes regularly. It implies that you must frequently update your automated tests to keep them current. As a result, tests can soon become obsolete and cease to be useful. Exploratory testing is also not appropriate for automated testing. A human tester can investigate software considerably more thoroughly than a computer. Unless the automated tests are programmed or configured to check for UI flaws, they will not find any." },
+    { question:"Mention the different parts of a test automation framework.", answer: "Tools that are programmable (code-based) or code-free: Some tools necessitate programming knowledge, while others do not, allowing a non-coder tester to generate test cases with visual aid. Open Source vs. Commercial: The pricing of the tools varies greatly depending on the features they provide. Commercial products can be costly, but you get tech assistance when you need it. Although open-source software is free, you must conduct research when troubleshooting issues. Simple to use: Some automated testing solutions are notoriously difficult to use and necessitate substantial training before they can provide any value. Some are simple to use and can be used right away." },
+    { question:"What is a test environment?", answer: "A computer or server can test software, which is referred to as a test environment. The tester installs the team's newly created software, complete with all of its dependencies, on this machine to simulate the production environment. As a result, the programme can be tested in a real-world situation." },
+    { question:"What is browser automation?", answer: "The process of mechanically opening a web application in a browser and carrying out some more operations automatically is known as \"browser automation.\"" },
+    { question:"What is cross-browser testing?", answer: "In cross-browser testing, a sort of automated browser testing, the tester determines whether or not the online application will function properly on different browsers, including Chrome, Firefox, Internet Explorer, Safari, and others." },
+    { question:"Why do you need cross-browser testing?", answer: "You cannot control the browsers, platforms, or devices that your users may use to access your programme while using web apps. However, cross-browser testing guarantees that your web application will function across numerous platforms and devices using various iterations of popular web browsers." },
+    { question:"What is automated regression testing?", answer: "In the Regression testing method, a tester ensures that no functionality from the old features has been broken. Its unique objective is to confirm that tested and developed functionality continues to function when a brand-new code has been added." },
+    { question:"What are some of the best practices in test automation?", answer: "Select tasks to automate. Based on knowledge and expertise, assign test scenarios. Get rid of uncertainty. Select the appropriate tools and frameworks. Maintain test records in a database of bugs." },
+    { question:"What is the test automation pyramid?", answer: "The test automation pyramid was initially developed by Martin Fowler and released in 2012. It is a method for figuring out how to employ the various types of testing automation most effectively. The test pyramid's fundamental tenet is to have a lot of user interface (UI) unit tests and a lot fewer comprehensive UI tests." },
+    { question:"How would you explain the meaning of Automation Testing?", answer: "Generally, any process that reduces human effort is termed as automation. Automation Testing is a process of using software, bots, or any method to perform repetitive tasks to eliminate errors, bugs, or find any vulnerabilities in the script. Automation testing plays a very crucial role in the software development process of continuous testing and continuous delivery when several updates are required regularly. Though in the software development process, testing is a separate field that requires expert professionals and the use of testing tools." },
+    { question:"What are the general types of Automation tests used in the industry?", answer: "Unit Testing is performed at the development stage to find and overcome bugs in the process.\nGraphical User Testing (GUI) is performed to test the front-end or user interface of the application. \nFunctional Testing is performed to test the ability of the functions present in the applications.\nSmoke Testing is performed to check if special feature stability with the overall product is feasible or not.\nIntegration Testing is performed to test the integration of the new module with the overall application logically and ease of communication throughout the whole process.\nRegression Testing is performed to test the recent code that affects the current features of the application to avoid any conflict." },
+    { question:"What are some good practices for automation testing?", answer: "Following naming standards throughout the script/nUse of appropriate comments\nSeparating codes based on use\nAvoid duplicate cases\nTest scripts regularly\nAdhere to coding conventions" },
+    { question:"What is an automation testing framework?", answer: "An automation testing framework is a tool or software that follows the guidelines and best practices to ease the automation process. This framework consists of various functional libraries, object details, test data sources, methods, and reusable models to complement the testing." },
+    { question:"How are the automation testing frameworks helpful?", answer: "Consistency and reliability to get desired goals\nHelps implement uniform testing throughout the system\nEasy to manage large and complex code\nAble to add new cases" },
+    { question:"How would you map the success of automation testing?", answer: "Time-saving\nReusability\nQuality of software\nMaintenance\nInstallment costs\nNumber of errors or bugs found\nSoftware or test coverage" },
+    { question:"What are the main steps in the life cycle in Automation testing?", answer: "Define the goals for automation testing\nDefine the scope of automation\nSelect the types of automation testing and cases to be performed\nBuild test scripts and test suits to check cases\nExecute with automation tools\nRecord test logs in a specific report formats" },
+    { question:"How would you select an automation tool?", answer: "Understand project requirements\nSearch list of tools to match these requirements\nConsider the budget for the testing\nCompare the tools for its unique solution, reusability, reporting, and ease of working for that project\nSelect the tool based on a comparison that benefits your organization in every aspect." },
+    { question:"Explain what is software testing.", answer: "It is the process of analyzing any given piece of software to determine if it meets shareholders’ needs as well as detecting defects, and ascertaining the item’s overall quality by measuring its performance, features, quality, utility, and completeness. Bottom line, it’s quality control." },
+    { question:"What is quality control, and how does it differ from quality assurance?", answer: "Quality control is the process of running a program to determine if it has any defects, as well as making sure that the software meets all of the requirements put forth by the stakeholders. Quality assurance is a process-oriented approach that focuses on making sure that the methods, techniques, and processes used to create quality deliverables are applied correctly." },
+    { question:"What exactly is manual software testing, and how does it differ from automated software testing?", answer: "Manual software testing is a process where human testers manually run test cases, then generate the resulting test reports. With automation software testing, these functions are executed by automation tools such as test scripts and code. The tester takes the end user’s role to determine how well the app works." },
+    { question:"What are the advantages of manual testing?", answer: "It’s cheaper\nYou get visual feedback that’s accurate and quick\nIt’s ideal for testing minor changes\nIt’s perfect for ad hoc testing\nTesters don’t have to know anything about automation tools\nIt’s great for testing UI’s" },
+    { question:"On the other hand, what are the drawbacks to manual testing?", answer: "Susceptible to human error\nSome tasks may be difficult to accomplish manually, requiring more time to complete\nThe cost adds up, so it’s more expensive in the long run\nYou cannot record the manual testing process, so it’s hard to replicate it" },
+    { question:"Explain what is SDLC.", answer: "This is an acronym for Software Development Life Cycle and encompasses all of the stages of software development, including requirement gathering and analysis, designing, coding, testing, deployment, and maintenance." },
+    { question:"What is a test case?", answer: "Test case is used to check whether an application complies with its requirements. It is a documented set of circumstances including prerequisites, input values, and expected outcomes." },
+    { question:"What is a test scenario?", answer: "A test scenario is derived from a use case. It's used to test an application's feature from beginning to end. Multiple test cases can be accommodated by a single test scenario. When there is a time constraint during testing, scenario testing comes in handy." },
+    { question:"What is a test plan?", answer: "A test plan is a formal document that specifies the scope of testing, the method to be used, the resources needed, and the estimated time to complete the testing process. It is derived from the specifications (Software Requirement Specifications). " },
+    { question:"What is test data?", answer: "Test data is information that is used to test software with various inputs and determine whether the resulting output matches the intended result. This data is generated based on the needs of the company." },
+    { question:" What is a test script? ", answer: "An automated test case created in any programming or scripting language is known as a test script. These are essentially a collection of instructions for evaluating an application's functionality." },
+    { question:"What types of manual testing are there?", answer: "Black Box\nWhite Box\nIntegration\nUnit\nSystem\nAcceptance" },
+    { question:"What is black box testing, and what are the various techniques?", answer: "Software testers employ black-box testing when they do not know the internal architecture or code structure. The techniques are:\nEquivalence Partitioning\nBoundary value analysis\nCause-effect graphing" },
+    { question:"What is white box testing and its various techniques?", answer: "Unlike black-box testing, white box involves analyzing the system’s internal architecture and/or its implementation, in addition to its source code quality. It’s techniques are:\nStatement Coverage\nDecision Coverage" },
+    { question:"Explain the difference between alpha testing and beta testing.", answer: "Alpha testing is at the developer’s site before release. Potential clients conduct beta testing at their websites." },
+    { question:"What’s the difference between verification and validation?", answer: "Verification evaluates the software at the development phase, ascertaining whether or not a product meets the expected requirements. On the other hand, validation evaluates the software after the development phase, making it sure it meets the requirements of the customer." },
+    { question:"What’s a testbed?", answer: "A testbed is an environment used for testing an application, including the hardware as well as any software needed to run the program to be tested." },
+    { question:"What is Sanity testing?", answer: "Sanity testing is testing done at the release level to test the main functionalities. It’s also considered an aspect of regression testing." },
+    { question:"List the four different test levels(manual)", answer: "Unit/component/program/module testing\nIntegration testing\nSystem testing\nAcceptance testing" },
+    { question:" What’s the difference between a bug and a defect?", answer: "A bug is a fault in the software that’s detected during testing time, while a defect is a variance between expected results and actual results, detected by the developer after the product goes live." },
+    { question:"What’s the difference between an error and a failure?", answer: "If a program can’t run or be compiled during development, it’s an error. If an end-user discovers an issue with the software, it’s a failure." },
+    { question:"What’s GUI testing?", answer: "This tests the interface between the software and the end-user. Short for Graphics User Interface." },
+    { question:"When should testing end?", answer: "The bug rate has fallen below an agreed-upon level\nThe testing or release deadlines have arrived\nThe testing budget is out of funds\nA certain percentage of test cases have passed\nThe alpha or beta testing periods have ended\nCode,functionality, or requirements coverage have been met at a declared point" },
+    { question:"Why is Software Testing Required?", answer: "Testing helps to uncover any bugs, errors, or other issues in the software so that they can be addressed and fixed before the product is released. \nTesting also ensures that the software meets all the requirements specified by the customer and works as expected. \nFinally, testing helps to ensure that the software is secure and can withstand malicious attacks." },
+    { question:"What are the different levels of manual testing? (12)", answer: "Unit Testing\nIntegration Testing\nSystem Testing\nUser Acceptance Testing\nPerformance Testing\nSecurity Testing\nCompatibility Testing\nUsability Testing\nInstallation Testing\nSmoke testing\nSanity testing\nRegression Testing" },
+    { question:"Explain the procedure for manual testing?", answer: "Identify the scope of testing: The first step of manual testing is to identify the scope of testing. The range could be a specific module, functionality, feature, or end-to-end system.\nDesign test cases: The next step is to design test cases based on the identified scope. The test cases should include test scenarios, data, expected results, and all other details necessary to perform the tests.\nExecute the test cases: After designing the test cases, the testers execute them to find any discrepancies between the expected and actual results.\nRecord the results: While performing the tests, the testers should record the results for further analysis." },
+    { question:"What's the role of documentation in Manual Testing?", answer: "Documentation is an integral part of manual testing. It is essential to document all steps taken in the testing process to ensure thorough test coverage and accurate results. Documentation provides an audit trail, which can be used to evaluate past test results and identify areas for improvement. Additionally, it is a reference for other testers who may be unfamiliar with the system or application under test."},
+];
+
+var index = 0;
+
+next_question_button.addEventListener("click", () => {
+    var current_flashcard = question_answers[index];
+    current_question.innerHTML = current_flashcard.question;
+    index += 1;
+})
+
+reveal_answer_button.addEventListener("click", () => {
+    var current_flashcard = question_answers[index - 1];
+    answer_displayed.innerHTML = current_flashcard.answer;
+})
+
+checked_button.addEventListener("click", () => {
+    correct_scoring.innerHTML = "Correct: " + correct_score;
+    correct_score += 1;
+});
+
+not_checked_button.addEventListener("click", () => {
+    incorrect_scoring.innerHTML = "Incorrect: " + incorrect_score
+    incorrect_score += 1;
+});
+
+
